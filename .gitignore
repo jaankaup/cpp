@@ -2,6 +2,7 @@
 *.swp
 *.swo
 output.txt
+CMakeCache.txt
 '
 *.info
 lib
