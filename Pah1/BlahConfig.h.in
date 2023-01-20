@@ -1,0 +1,3 @@
+// the configured options and settings for Tutorial
+#define Blah_VERSION_MAJOR @Blah_VERSION_MAJOR@
+#define Blah_VERSION_MINOR @Blah_VERSION_MINOR@
