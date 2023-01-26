@@ -12,7 +12,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_library(mylib STATIC src/pahlib.cpp include/pah/lib.hpp)
-target_include_directories(mylib PUBLIC include)
 target_compile_features(mylib PUBLIC cxx_std_17)
 
 add_executable(blah apps/joo.cpp)
