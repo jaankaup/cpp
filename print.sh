@@ -1,3 +1,3 @@
 #!/bin/bash -x
 
-tree -I "build"
+tree -I "build|test_dot"
