@@ -1,8 +1,8 @@
 #include <QIODevice>
 #include <QTreeWidgetItem>
-#include "card_loader.h"
-
 #include <QString>
+#include "card_loader.h"
+#include "card.h"
 
 namespace BoosterApp {
 
@@ -16,19 +16,22 @@ namespace BoosterApp {
     }
 
     void CardLoader::write() {}
+
     void CardLoader::write_something()
     {
         QFile file("eki.txt");
+        Card c;
 
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return;
 
         p_xml_writer->setDevice(&file); //(jaahans);
         p_xml_writer->setAutoFormatting(true);
-        // p_xml_writer->writeStartDocument();
-        p_xml_writer->writeStartElement("bookmark");
-        p_xml_writer->writeAttribute("href", "http://qt-project.org/");
-        p_xml_writer->writeTextElement("title", "Qt Project");
-        p_xml_writer->writeEndElement(); // bookmark
+        c.write(p_xml_writer.get());
+        // // p_xml_writer->writeStartDocument();
+        // p_xml_writer->writeStartElement("bookmark");
+        // p_xml_writer->writeAttribute("href", "http://qt-project.org/");
+        // p_xml_writer->writeTextElement("title", "Qt Project");
+        // p_xml_writer->writeEndElement(); // bookmark
         // p_xml_writer->writeEndDocument();
     }
 

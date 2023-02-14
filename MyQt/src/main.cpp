@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "window.h"
 #include "card_loader.h"
+#include "card.h"
 
 int main(int argc, char **argv)
 {

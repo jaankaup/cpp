@@ -12,7 +12,15 @@ list(APPEND CMAKE_PREFIX_PATH "/home/janne/Qt6")
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # Create custom window.
-add_library(mylib STATIC src/window.cpp src/window.h src/card_loader.cpp src/card_loader.h)
+add_library(mylib STATIC src/window.cpp
+                         src/window.h
+                         src/card_loader.cpp
+                         src/card_loader.h
+                         src/card.cpp
+                         src/card.h
+                         src/misc.cpp
+                         src/misc.h
+                         )
 target_compile_features(mylib PUBLIC cxx_std_17)
 target_link_libraries(mylib PRIVATE Qt6::Widgets)
 
