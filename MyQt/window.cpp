@@ -1,6 +1,9 @@
 #include "window.h"
+#include <QApplication>
 #include <QPushButton>
 
+namespace Yeah {
+ 
 Window::Window(QWidget *parent) : QWidget(parent)
 {
 	// Set size of the window
@@ -9,4 +12,8 @@ Window::Window(QWidget *parent) : QWidget(parent)
 	// Create and position the button
 	m_button = new QPushButton("Erkki", this);
 	m_button->setGeometry(10, 10, 80, 30);
+
+        connect(m_button, SIGNAL (clicked()), QApplication::instance(), SLOT (quit()));
+}
+
 }

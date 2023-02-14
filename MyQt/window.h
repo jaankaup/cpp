@@ -4,6 +4,9 @@
 #include <QWidget>
 
 class QPushButton;
+
+namespace Yeah {
+
 class Window : public QWidget
 {
  public:
@@ -11,5 +14,7 @@ class Window : public QWidget
  private:
  QPushButton *m_button;
 };
+
+} // namespace
 
 #endif // WINDOW_H
