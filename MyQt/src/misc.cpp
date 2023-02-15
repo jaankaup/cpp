@@ -1,3 +1,5 @@
+#include <iostream>
+#include <cassert>
 #include "misc.h"
 
 namespace Misc {
@@ -17,4 +19,41 @@ namespace Misc {
         return result;
     }
 
+    std::optional<std::vector<std::string>> split_const(const std::string& str, const char delimiter)
+    {
+
+        if (str.length() == 0) { return {}; }
+
+        std::vector<uint> histogram;
+        histogram.reserve(str.length());
+
+        for (const auto& ch : str)
+        {
+            histogram.push_back(delimiter == ch ? 1 : 0);
+        }
+
+        for (int i=1; i<histogram.size(); i++)
+        {
+            histogram[i] = histogram[i] + histogram[i-1]; 
+            //std::cout << histogram[i] << ", ";
+        }
+
+        std::cout << std::endl;
+
+        auto last_index = histogram.back();
+
+        // The return value.
+        auto result = std::make_optional<std::vector<std::string>>(last_index+1, std::string());
+
+        for (int i=0; i<histogram.size(); i++)
+        {
+            if (str[i] != '\t')
+            {
+               //std::cout << "Adding " << str[i] << " to vector[" << histogram[i] << "]" << std::endl;
+               (*result)[histogram[i]].push_back(str[i]); 
+            }
+        }
+
+        return result;
+    }
 } // namespace

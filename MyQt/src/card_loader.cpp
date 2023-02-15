@@ -13,6 +13,8 @@ namespace BoosterApp {
         // Create xml reader.
         p_xml_reader = std::make_unique<QXmlStreamReader>(); 
         p_xml_writer = std::make_unique<QXmlStreamWriter>(); 
+        p_cards = std::make_unique<std::vector<Card>>(); 
+
     }
 
     void CardLoader::write() {}

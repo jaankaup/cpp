@@ -21,6 +21,7 @@ add_library(mylib STATIC src/window.cpp
                          src/misc.cpp
                          src/misc.h
                          )
+
 target_compile_features(mylib PUBLIC cxx_std_17)
 target_link_libraries(mylib PRIVATE Qt6::Widgets)
 

@@ -2,11 +2,13 @@
 #define CARD_LOADER_H
 
 #include <optional>
+#include <vector>
 #include <QString>
 #include <QFile>
 #include <QTextStream>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include "card.h"
 // #include <QTreeWidget>
 
 class QPushButton;
@@ -22,6 +24,7 @@ namespace BoosterApp {
         private:
             std::unique_ptr<QXmlStreamReader> p_xml_reader; 
             std::unique_ptr<QXmlStreamWriter> p_xml_writer; 
+            std::unique_ptr<std::vector<Card>> p_cards;
             //int m_counter = 0;
             //QTreeWidget tree_widget; 
     };
