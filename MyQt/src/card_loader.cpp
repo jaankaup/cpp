@@ -3,6 +3,7 @@
 #include <QString>
 #include <QObject>
 #include <QStringView>
+#include <QTextStream>
 #include "card_loader.h"
 #include "card.h"
 
@@ -42,7 +43,41 @@ namespace BoosterApp {
         // p_xml_writer->writeEndDocument();
     }
 
-    std::optional<std::vector<QString>> CardLoader::load_set_information()
+    std::vector<Card> CardLoader::load_cards()
+    {
+        std::vector<Card> result(30000);
+        auto lists = load_card_data_files();
+        if (lists.has_value()) {
+           for (const auto& list : *lists) {
+               // std::cout << list.toStdString() << std::endl;
+               QFile file(QString("lackey/").append(list)); // TODO: remove lackey.
+               if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                   std::cout << "Unable to open file " << list.toStdString() << std::endl;
+                   return result;
+               }
+
+               QTextStream ts(&file);
+
+               QString line;
+
+               uint counter = 0;
+               while (ts.readLineInto(&line)) {
+                   if (counter == 0) { counter++; continue; }
+                   Card c;
+                   bool succeed = c.parse(line.toStdString());
+                   if (succeed) {
+                       result.push_back(c);
+                   }
+               }
+               //s.append(ts.readAll());
+
+           }
+        }
+        std::cout << "Number of cards parsed ==  " << result.size() << std::endl;
+        return result;
+    }
+
+    std::optional<std::vector<QString>> CardLoader::load_card_data_files()
     {
         auto set_file_names = std::make_optional<std::vector<QString>>(); 
 
@@ -60,15 +95,11 @@ namespace BoosterApp {
 
         while (!p_xml_reader->atEnd()) {
 
-            // Skip whitespaces.
-            if (p_xml_reader->isWhitespace()) { 
-               // std::cout << "Emphty" << std::endl;
-            }
-            // Parse.
+            if (p_xml_reader->isWhitespace()) { }
+
             else if (elem_type == QXmlStreamReader::StartElement) {
 
                auto the_name = (p_xml_reader->name().toString());
-               std::cout << "<" << the_name.toStdString() << ">" << std::endl;
 
                p_xml_reader->readNext(); 
 
@@ -76,51 +107,16 @@ namespace BoosterApp {
                    if (p_xml_reader->isWhitespace()) { p_xml_reader->readNext(); continue; } 
                    else if (p_xml_reader->isCharacters()) {
                        (*set_file_names).push_back(p_xml_reader->text().toString());
-                       // std::cout << (p_xml_reader->text()).toString().toStdString() << std::endl;
                    }
                    p_xml_reader->readNext();
                }
-               std::cout << "<" << the_name.toStdString() << "/>" << std::endl;
-
-               // auto jep = the_name.compare(QString("filetoinclude"));
-               // if (jep) {
-               //     std::cout << "filestoinclude!!!" << std::endl;
-               // }
-               // std::cout << (p_xml_reader->name()).toString().toStdString() << std::endl;
-               // auto attributes = p_xml_reader->attributes();
             }
-            else if (elem_type == QXmlStreamReader::EndElement) {
-               std::cout << "End element." << std::endl;
-            }
-
-            else if (elem_type == QXmlStreamReader::StartDocument) {
-               // std::cout << "Start document." << std::endl;
-            }
-
-            else if (elem_type == QXmlStreamReader::EndDocument) {
-               // std::cout << "End document." << std::endl;
-            }
-            else if (elem_type == QXmlStreamReader::Characters) {
-               std::cout << "Characters." << std::endl;
-               std::cout << (p_xml_reader->text()).toString().toStdString() << std::endl;
-            }
-            else if (elem_type == QXmlStreamReader::StartDocument) {
-               std::cout << "Start document." << std::endl;
-            }
-            else if (elem_type == QXmlStreamReader::Comment) {
-               std::cout << "Comment." << std::endl;
-            }
-            else if (elem_type == QXmlStreamReader::DTD) {
-               std::cout << "DTD." << std::endl;
-            }
-            else if (elem_type == QXmlStreamReader::EntityReference) {
-               std::cout << "EntityReference." << std::endl;
-            }
-            else if (elem_type == QXmlStreamReader::ProcessingInstruction) {
-               std::cout << "ProcessingInstruction." << std::endl;
-            }
-            //std::cout << elem_type << std::endl;
             elem_type = p_xml_reader->readNext(); 
+        }
+
+        if (p_xml_reader->hasError()) {
+            std::cout << "An error occured while parsing ListOfCardDataFiles.txt" << std::endl;
+            return {};
         }
         
         return set_file_names;

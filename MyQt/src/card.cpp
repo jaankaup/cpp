@@ -9,15 +9,14 @@ namespace BoosterApp {
     {
         // TODO: !!!!!
         auto maybe_vec = Misc::split_const(str, '\t');
-            bool result = false;
 
         if (maybe_vec.has_value())
         {
-            std::cout << "Has value!" << std::endl;
+            // std::cout << "Has value!" << std::endl;
 
             if ((*maybe_vec).size() != 17) {
-                std::cout << "The number of tokens (" << (*maybe_vec).size() << ")." << std::endl;
-                result = false;
+                // std::cout << "The number of tokens (" << (*maybe_vec).size() << ")." << std::endl;
+                return false;
             }
             else {
                 p_name      = (*maybe_vec)[0];
@@ -37,19 +36,19 @@ namespace BoosterApp {
                 p_sound     = (*maybe_vec)[14];
                 p_script    = (*maybe_vec)[15];
                 p_text      = (*maybe_vec)[16];
-                result      = true;
+                return true;
             }
             //for (const auto& val : *maybe_vec)
             //{
             //    std::cout << val << std::endl; 
             //}
         }
-        else 
-        {
-            std::cout << "Oh no!" << std::endl;
-            result = false;
-        }
-        return result;
+        else { return false; }
+        // else 
+        // {
+        //     // std::cout << "Oh no!" << std::endl;
+        //     result = false;
+        // }
     }
 
     //<card><name id="lea/195">Fungusaur</name><set>alpha</set></card>

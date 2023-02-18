@@ -38,8 +38,6 @@ namespace Misc {
             //std::cout << histogram[i] << ", ";
         }
 
-        std::cout << std::endl;
-
         auto last_index = histogram.back();
 
         // The return value.
@@ -53,6 +51,8 @@ namespace Misc {
                (*result)[histogram[i]].push_back(str[i]); 
             }
         }
+
+        if ((*result).size() != 17) { return {}; }
 
         return result;
     }

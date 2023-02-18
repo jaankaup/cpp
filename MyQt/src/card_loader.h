@@ -22,7 +22,10 @@ namespace BoosterApp {
             explicit CardLoader();
             void write();
             void write_something();
-            std::optional<std::vector<QString>> load_set_information();
+            std::vector<Card> load_cards();
+
+            // Todo private
+            std::optional<std::vector<QString>> load_card_data_files();
         private:
             std::unique_ptr<QXmlStreamReader> p_xml_reader; 
             std::unique_ptr<QXmlStreamWriter> p_xml_writer; 
