@@ -12,6 +12,10 @@ int main(int argc, char **argv)
     //std::string str; 
     c.parse(str); 
     BoosterApp::CardLoader cl;
+    auto files = cl.load_set_information();
+    for (const auto& f : *files) {
+        std::cout << f.toStdString() << std::endl;
+    }
     cl.write_something();
     BoosterApp::Window window;
     window.show();

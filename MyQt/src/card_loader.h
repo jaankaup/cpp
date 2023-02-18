@@ -8,10 +8,11 @@
 #include <QTextStream>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include <QTreeWidget>
 #include "card.h"
 // #include <QTreeWidget>
 
-class QPushButton;
+// class QPushButton;
 
 namespace BoosterApp {
 
@@ -21,10 +22,12 @@ namespace BoosterApp {
             explicit CardLoader();
             void write();
             void write_something();
+            std::optional<std::vector<QString>> load_set_information();
         private:
             std::unique_ptr<QXmlStreamReader> p_xml_reader; 
             std::unique_ptr<QXmlStreamWriter> p_xml_writer; 
             std::unique_ptr<std::vector<Card>> p_cards;
+            QTreeWidget* p_treeWidget;
             //int m_counter = 0;
             //QTreeWidget tree_widget; 
     };
