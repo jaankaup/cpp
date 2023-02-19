@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include <QWidget>
+#include "booster.h"
 
 class QPushButton;
 
@@ -19,6 +20,8 @@ namespace BoosterApp {
         private:
             QPushButton *m_button;
             int m_counter = 0;
+            std::vector<Booster*> p_boosters;
+            //std::unique_ptr<Booster> p_booster;
     };
 
 } // namespace

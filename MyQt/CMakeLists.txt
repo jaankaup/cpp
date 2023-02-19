@@ -20,6 +20,8 @@ add_library(mylib STATIC src/window.cpp
                          src/card.h
                          src/misc.cpp
                          src/misc.h
+                         src/booster.h
+                         src/booster.cpp
                          )
 
 target_compile_features(mylib PUBLIC cxx_std_17)

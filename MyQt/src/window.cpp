@@ -1,6 +1,13 @@
-#include "window.h"
+#include <string>
+#include <vector>
 #include <QApplication>
 #include <QPushButton>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+#include <QList>
+#include <QStringList>
+#include "window.h"
+#include "booster.h"
 
 namespace BoosterApp {
  
@@ -16,6 +23,19 @@ Window::Window(QWidget *parent) : QWidget(parent)
         m_button->setCheckable(true);
         connect(m_button, SIGNAL (clicked(bool)), this, SLOT (slotButtonClicked(bool)));
         connect(this, SIGNAL (counterReached()), QApplication::instance(), SLOT (quit()));
+        QTreeWidget* qtw = new QTreeWidget(this);
+        qtw->setColumnCount(1);
+        QList<QTreeWidgetItem*> items;
+
+        for (int i = 0; i < 10; ++i)
+                items.append(new QTreeWidgetItem(static_cast<QTreeWidget *>(nullptr), QStringList(QString("item: %1").arg(i))));
+        qtw->insertTopLevelItems(0, items);
+        // p_boosters.push_back(new Booster(this));
+        // p_boosters.push_back(new Booster(this));
+        // p_boosters.push_back(new Booster(this));
+        // p_boosters.push_back(new Booster(this));
+        // p_boosters.push_back(new Booster(this));
+        // p_boosters.push_back(new Booster(this));
 }
 
 void Window::slotButtonClicked(bool checked)
