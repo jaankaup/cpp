@@ -16,11 +16,12 @@ namespace BoosterApp {
         // Create xml reader.
         p_xml_reader = std::make_unique<QXmlStreamReader>(); 
         p_xml_writer = std::make_unique<QXmlStreamWriter>(); 
-        p_cards = std::make_unique<std::vector<Card>>(); 
-        p_treeWidget = new QTreeWidget();  
-        QStringList labels; 
-        labels << QObject::tr("jooo-o") << QObject::tr("eikojuu");
-        p_treeWidget->setHeaderLabels(labels);
+        p_cards = std::make_unique<std::vector<Card>>();
+        p_cards->reserve(50000);
+        // p_treeWidget = new QTreeWidget();  
+        // QStringList labels; 
+        // labels << QObject::tr("jooo-o") << QObject::tr("eikojuu");
+        // p_treeWidget->setHeaderLabels(labels);
     }
 
     void CardLoader::write() {}
@@ -43,17 +44,17 @@ namespace BoosterApp {
         // p_xml_writer->writeEndDocument();
     }
 
-    std::vector<Card> CardLoader::load_cards()
+    void CardLoader::load_cards()
     {
-        std::vector<Card> result(30000);
         auto lists = load_card_data_files();
+
         if (lists.has_value()) {
            for (const auto& list : *lists) {
                // std::cout << list.toStdString() << std::endl;
                QFile file(QString("lackey/").append(list)); // TODO: remove lackey.
                if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                    std::cout << "Unable to open file " << list.toStdString() << std::endl;
-                   return result;
+                   return;
                }
 
                QTextStream ts(&file);
@@ -66,15 +67,31 @@ namespace BoosterApp {
                    Card c;
                    bool succeed = c.parse(line.toStdString());
                    if (succeed) {
-                       result.push_back(c);
+                       // p_cards->push_back(c);
+
+                       auto it = p_set_cards.insert(
+                               std::pair<std::string, std::vector<Card>>(c.get_set(), std::vector<Card>()));  
+                       (*it.first)
+                           .second
+                           .push_back(c);
                    }
                }
                //s.append(ts.readAll());
-
            }
         }
-        std::cout << "Number of cards parsed ==  " << result.size() << std::endl;
-        return result;
+        // int lkm = 0;
+        // auto the_it = p_set_cards.begin(); 
+        // while (the_it != p_set_cards.end())
+        // {
+        //     int joo_o = 0;
+        //     for (const auto& card : the_it->second) {
+        //         std::cout << joo_o << " -> " << card.get_set() << " :: " << card.get_name() << std::endl;
+        //         joo_o++;
+        //     }
+        //     the_it++;
+
+        // }
+        //std::cout << "Number of cards parsed ==  " << p_cards->size() << std::endl;
     }
 
     std::optional<std::vector<QString>> CardLoader::load_card_data_files()
@@ -85,7 +102,6 @@ namespace BoosterApp {
 
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             std::cout << "Unable to open ListOfCardDataFiles.txt" << std::endl;
-            
         }
 
         int lkm = 0;

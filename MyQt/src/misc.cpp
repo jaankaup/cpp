@@ -35,7 +35,6 @@ namespace Misc {
         for (int i=1; i<histogram.size(); i++)
         {
             histogram[i] = histogram[i] + histogram[i-1]; 
-            //std::cout << histogram[i] << ", ";
         }
 
         auto last_index = histogram.back();
@@ -47,7 +46,6 @@ namespace Misc {
         {
             if (str[i] != '\t')
             {
-               //std::cout << "Adding " << str[i] << " to vector[" << histogram[i] << "]" << std::endl;
                (*result)[histogram[i]].push_back(str[i]); 
             }
         }

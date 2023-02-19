@@ -68,4 +68,7 @@ namespace BoosterApp {
         writer->writeEndElement();
     }
 
+    std::string Card::get_name() const { return p_name; }
+    std::string Card::get_set() const { return p_set; }
+
 } //namespace

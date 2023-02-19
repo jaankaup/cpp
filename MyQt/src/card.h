@@ -13,6 +13,8 @@ namespace BoosterApp {
             explicit Card() {}
             bool parse(const std::string& str);          
             void write(QXmlStreamWriter* device);
+            std::string get_name() const;
+            std::string get_set() const;
 
         private:
 
